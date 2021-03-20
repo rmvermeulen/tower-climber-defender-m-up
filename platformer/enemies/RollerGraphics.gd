@@ -1,17 +1,20 @@
 tool
 extends Node2D
 
-export(float, 0, 1) var quality := 0.5 setget set_quality
-export(bool) var anti_aliasing := true setget set_anti_aliasing
+export (float, 0, 1) var quality := 0.5 setget set_quality
+export (bool) var anti_aliasing := true setget set_anti_aliasing
+
 
 func set_quality(value: float) -> void:
 	quality = value
 	update()
-	
+
+
 func set_anti_aliasing(value: bool) -> void:
 	anti_aliasing = value
 	update()
-	
+
+
 func _draw():
 	var here := Vector2.ZERO
 	draw_circle(here, 32, Color.brown)
