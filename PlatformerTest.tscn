@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 32.0
+height = 16.0
+
+[node name="PlatformerTest" type="Node2D"]
+
+[node name="PlatformerPlayer" type="KinematicBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlatformerPlayer"]
+shape = SubResource( 1 )
