@@ -1,3 +1,18 @@
-[gd_scene format=2]
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://tower-defense/AdaptiveAstar.gd" type="Script" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 512, 512 )
 
 [node name="TowerDefenseTest" type="Node2D"]
+
+[node name="AdaptiveAstar" type="Area2D" parent="."]
+position = Vector2( 512, 88 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AdaptiveAstar"]
+shape = SubResource( 1 )
