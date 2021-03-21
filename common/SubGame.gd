@@ -1,7 +1,9 @@
 class_name SubGame
 extends Node
 
-onready var state := get_parent()
+const GameState := preload("res://common/GameState.gd")
+
+onready var state: GameState = get_parent()
 
 
 func _ready():
