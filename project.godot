@@ -13,14 +13,21 @@ _global_script_classes=[ {
 "class": "Enemy",
 "language": "GDScript",
 "path": "res://common/Enemy.gd"
+}, {
+"base": "Node",
+"class": "SubGame",
+"language": "GDScript",
+"path": "res://common/SubGame.gd"
 } ]
 _global_script_class_icons={
-"Enemy": ""
+"Enemy": "",
+"SubGame": ""
 }
 
 [application]
 
 config/name="tower-climber-defender-m-up"
+run/main_scene="res://CombinedScene.tscn"
 config/icon="res://icon.png"
 
 [rendering]

@@ -45,3 +45,19 @@ goals:
   - [ ] tower-defense enemies
   - [ ] platformer enemies
   - [ ] schmup enemies
+
+## Architecture
+
+A combined scene is structured like this:
+
+```
+node { GameState }
+- node { SubGame::Platformer },
+- node { SubGame::Schmup },
+- node { SubGame::TowerDefense },
+- ...
+```
+
+SubGames check the parent for the current game state, and send messages to change it.
+This makes them easier to test and run separately.
+SubGames can have their own dedicated state for whatever they're doing, but only the GameState will be saved, and all important things should be in there.
