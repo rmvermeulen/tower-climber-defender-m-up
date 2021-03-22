@@ -1,9 +1,9 @@
 extends Area2D
 
-enum CONNECT_MODE { STRAIGHT, DIAGONAL, EXTRA }
+enum CONNECT_MODE { STRAIGHT, STRAIGHT_AND_DIAGONAL }
 
 const GRID_CELL_SIZE := 64
-export (CONNECT_MODE) var connect_mode := CONNECT_MODE.DIAGONAL
+export (CONNECT_MODE) var connect_mode := CONNECT_MODE.STRAIGHT_AND_DIAGONAL
 
 onready var astar := AStar2D.new()
 onready var rect := $CollisionShape2D.shape as RectangleShape2D
@@ -22,10 +22,8 @@ func _ready():
 	match connect_mode:
 		CONNECT_MODE.STRAIGHT:
 			max_dist = 2
-		CONNECT_MODE.DIAGONAL:
+		CONNECT_MODE.STRAIGHT_AND_DIAGONAL:
 			max_dist = 3
-		CONNECT_MODE.EXTRA:
-			max_dist = 6
 		_:
 			assert(false, "Invalid connect_mode")
 	prints('max dist', max_dist)
