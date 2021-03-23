@@ -3,7 +3,7 @@ extends Node
 
 const GameState := preload("res://common/GameState.gd")
 
-onready var state: GameState = get_parent()
+onready var state: GameState = get_parent() as Node2D
 
 
 func _ready():
