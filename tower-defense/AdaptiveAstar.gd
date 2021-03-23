@@ -7,6 +7,8 @@ export (CONNECT_MODE) var connect_mode := CONNECT_MODE.STRAIGHT_AND_DIAGONAL
 
 onready var astar := AStar2D.new()
 
+var disabled_points := {}
+
 
 func _ready():
 	var rect := $CollisionShape2D.shape as RectangleShape2D
@@ -53,23 +55,50 @@ func _on_body_entered(body: StaticBody2D) -> void:
 	var shape_node: CollisionShape2D = Util.find_child_of_type(body, CollisionShape2D)
 	var extents := (shape_node.shape as RectangleShape2D).extents
 	var rect := Rect2(body.position - extents, 2 * extents)
-	var disabled := 0
+	var disabled := []
 	for pid in astar.get_points():
 		if astar.is_point_disabled(pid):
 			continue
 		var pos := astar.get_point_position(pid)
 		if rect.has_point(pos):
-			astar.set_point_disabled(pid)
-			disabled += 1
-	prints('Astar: disabled %d points' % disabled)
+			_disable_point_with_body(pid, body)
+			disabled.append([pid, pos])
+	prints('Astar: disabled %d points' % disabled.size(), disabled)
 	update()
 
 
 func _on_body_exited(body: StaticBody2D) -> void:
-	prints(name, 'body exited', body)
 	if not body:
 		return
+	var enabled := []
+	# check disabled_points for the body, and remove it wherever it is
+	# if the disabled point has no more bodies disabling it, it becomes active again
+	for pid in disabled_points:
+		var bodies: Array = disabled_points[pid]
+		# if the body is in the list, remove it
+		if body in bodies:
+			bodies.erase(body)
+			# if the list is now empty, re-enable the point
+			if bodies.empty():
+				assert(disabled_points.erase(pid))
+				astar.set_point_disabled(pid, false)
+				enabled.append(pid)
+			else:
+				# point still disabled by other bodies
+				disabled_points[pid] = bodies
 	update()
+
+
+func _disable_point_with_body(pid: int, body: PhysicsBody2D):
+	if not disabled_points.has(pid):
+		disabled_points[pid] = []
+
+	var bodies: Array = disabled_points[pid]
+	if bodies.find(body) >= 0:
+		return
+	bodies.append(body)
+	disabled_points[pid] = bodies
+	astar.set_point_disabled(pid)
 
 
 func find_path(start: Vector2, end: Vector2, _options := {}) -> PoolVector2Array:
@@ -103,6 +132,7 @@ func _draw():
 
 			# used to call draw_line, so arguments match
 			connection_cache[key] = [pos_a, pos_b, color]
+
 	for args in connection_cache.values():
 		callv("draw_line", args)
 
