@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "SubGame",
 "language": "GDScript",
 "path": "res://common/SubGame.gd"
+}, {
+"base": "Node",
+"class": "Util",
+"language": "GDScript",
+"path": "res://common/Util.gd"
 } ]
 _global_script_class_icons={
 "Enemy": "",
-"SubGame": ""
+"SubGame": "",
+"Util": ""
 }
 
 [application]
