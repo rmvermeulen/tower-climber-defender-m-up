@@ -11,6 +11,8 @@ var disabled_points := {}
 
 
 func _ready():
+	get_parent().set('nav', self)
+
 	var rect := $CollisionShape2D.shape as RectangleShape2D
 	var cell_count := rect.extents / GRID_CELL_SIZE
 
@@ -102,7 +104,7 @@ func _disable_point_with_body(pid: int, body: PhysicsBody2D):
 
 
 func find_path(start: Vector2, end: Vector2, _options := {}) -> PoolVector2Array:
-	return astar.get_simple_path(start, end)
+	return astar.get_point_path(astar.get_closest_point(start), astar.get_closest_point(end))
 
 
 func _draw():

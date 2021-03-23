@@ -1,5 +1,9 @@
 extends SubGame
 
+const AdaptiveAstar := preload("res://tower-defense/AdaptiveAstar.gd")
+
+var nav: AdaptiveAstar
+
 
 func _ready():
 	if not state:
