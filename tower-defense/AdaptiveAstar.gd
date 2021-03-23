@@ -44,10 +44,6 @@ func _ready():
 	assert(OK == connect("body_entered", self, "_on_body_entered"))
 	assert(OK == connect("body_exited", self, "_on_body_exited"))
 
-	while is_inside_tree():
-		yield(get_tree().create_timer(5.0), "timeout")
-		update()
-
 
 func _on_body_entered(body: StaticBody2D) -> void:
 	if not body:
@@ -62,13 +58,17 @@ func _on_body_exited(body: StaticBody2D) -> void:
 
 
 func block_cell(pos: Vector2, type: int) -> void:
+	prints("block cell", pos, type)
 	var pid := astar.get_closest_point(pos)
-	astar.set_point_disabled(pid)
+	if pid >= 0:
+		astar.set_point_disabled(pid)
 
 
 func clear_cell(pos: Vector2) -> void:
+	prints("clear cell", pos)
 	var pid := astar.get_closest_point(pos, true)
-	astar.set_point_disabled(pid, false)
+	if pid >= 0:
+		astar.set_point_disabled(pid, false)
 
 
 func find_path(start: Vector2, end: Vector2, _options := {}) -> PoolVector2Array:
