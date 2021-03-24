@@ -16,7 +16,6 @@ blocks = [ {
 "y": 3
 } ]
 player = {
-
 }
 
 [node name="Platformer" parent="." instance=ExtResource( 3 )]
