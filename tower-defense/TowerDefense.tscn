@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://tower-defense/AdaptiveAstar.gd" type="Script" id=1]
 [ext_resource path="res://tower-defense/TowerDefense.gd" type="Script" id=2]
 [ext_resource path="res://tower-defense/enemies/SpawnBlock.tscn" type="PackedScene" id=3]
 [ext_resource path="res://tower-defense/enemies/Attacker.tscn" type="PackedScene" id=4]
 [ext_resource path="res://tower-defense/BasicTower.tscn" type="PackedScene" id=5]
+[ext_resource path="res://tower-defense/Cursor.gd" type="Script" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 512, 512 )
@@ -34,3 +35,6 @@ position = Vector2( 128, 192 )
 
 [node name="BasicTower2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 256, 384 )
+
+[node name="Cursor" type="Node2D" parent="."]
+script = ExtResource( 6 )
