@@ -7,6 +7,7 @@ onready var game: TowerDefense = get_parent()
 var target: Node2D = null
 var path: PoolVector2Array = []
 var path_index := -1
+var _path_locked_timer := false
 
 
 func _ready():
@@ -14,14 +15,22 @@ func _ready():
 
 
 func _find_target():
+	if _path_locked_timer:
+		return
+	_path_locked_timer = true
+
 	var towers := get_tree().get_nodes_in_group("towers")
 	if towers.empty():
+		_path_locked_timer = false
 		return
+
 	towers.sort_custom(self, "_sort_by_proximity")
 	target = towers[0]
 	path = game.nav.find_path(position, target.position)
 	path_index = 0
-	prints(name, path)
+
+	yield(get_tree().create_timer(1.5), "timeout")
+	_path_locked_timer = false
 
 
 func _sort_by_proximity(a, b):
@@ -32,7 +41,8 @@ func _sort_by_proximity(a, b):
 
 func _physics_process(delta: float):
 	if path.empty() || path_index >= path.size():
-		return
+		return _find_target()
+
 	var dst := _get_current_destination()
 	var diff := dst - position
 
