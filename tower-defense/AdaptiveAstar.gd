@@ -13,14 +13,16 @@ var disabled_points := {}
 func _ready():
 	get_parent().set('nav', self)
 
-	var rect := $CollisionShape2D.shape as RectangleShape2D
+	var cnode: CollisionShape2D = $CollisionShape2D
+	var offset: Vector2 = cnode.position
+	var rect := cnode.shape as RectangleShape2D
 	var cell_count := rect.extents / GRID_CELL_SIZE
 
 	var id := 0
 	for cy in range(-cell_count.y, cell_count.y):
 		for cx in range(-cell_count.x, cell_count.x):
-			var pos := Vector2(cx, cy) * GRID_CELL_SIZE
-			astar.add_point(id, to_global(pos), 1.0)
+			var pos := Vector2(cx + 0.5, cy + 0.5) * GRID_CELL_SIZE + offset
+			astar.add_point(id, pos, 1.0)
 			id += 1
 	var connected := 0
 	var skipped := 0
@@ -114,7 +116,7 @@ func _draw():
 		if astar.is_point_disabled(point_a):
 			# skip connections to point_a
 			continue
-		var pos_a := to_local(astar.get_point_position(point_a))
+		var pos_a := astar.get_point_position(point_a)
 
 		for point_b in astar.get_point_connections(point_a):
 			if astar.is_point_disabled(point_b):
@@ -129,7 +131,7 @@ func _draw():
 				continue
 
 			# compute remaining data to draw a connection
-			var pos_b := to_local(astar.get_point_position(point_b))
+			var pos_b := astar.get_point_position(point_b)
 			var color: Color = colors[randi() % colors.size()]
 
 			# used to call draw_line, so arguments match
@@ -142,4 +144,4 @@ func _draw():
 		if astar.is_point_disabled(id):
 			continue
 		var pos := astar.get_point_position(id)
-		draw_circle(to_local(pos), 4, Color.black)
+		draw_circle(pos, 4, Color.black)

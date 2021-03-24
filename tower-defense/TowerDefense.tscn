@@ -13,7 +13,6 @@ extents = Vector2( 512, 512 )
 script = ExtResource( 2 )
 
 [node name="AdaptiveAstar" type="Area2D" parent="."]
-position = Vector2( 512, 88 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true,
@@ -21,6 +20,7 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AdaptiveAstar"]
+position = Vector2( 512, 88 )
 shape = SubResource( 1 )
 
 [node name="SpawnBlock" parent="." instance=ExtResource( 3 )]
